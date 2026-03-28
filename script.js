@@ -41,6 +41,11 @@ function viewBookLibrary(){
     const bookCard = document.createElement("div");
     bookCard.classList.add("card");
 
+    const removeBook = document.createElement('button');
+    removeBook.textContent = 'Remove';
+    removeBook.classList = 'remove-card';
+    removeBook.setAttribute('data-id', myLibrary[book].id);
+
     const bookTitle = document.createElement("h2");
     bookCard.classList.add("card-title");
     bookTitle.textContent = myLibrary[book].title;
@@ -62,6 +67,7 @@ function viewBookLibrary(){
     bookCard.append(bookAuthor);
     bookCard.append(bookPages);
     bookCard.append(bookRead);
+    bookCard.append(removeBook);
     bookLibaryContainer.append(bookCard);
     // const element = myLibrary[book];
     // console.log(myLibrary[book].title);
@@ -85,3 +91,22 @@ function addNewBook(){
 }
 addNewBook();
 viewBookLibrary();
+
+function removeBook() {
+  for (const book of myLibrary) {
+  const btns = document.querySelectorAll('.remove-card');
+  btns.forEach((btn) => {
+    btn.addEventListener("click", () =>{
+      if (book.id === btn.dataset.id){
+        const bookList = myLibrary.find(set => set.id !== book.id);
+        const bookIndex = myLibrary.indexOf(bookList);
+        myLibrary.splice(bookIndex, 1); // 2nd parameter removes one item only
+        if (btn.parentElement) {
+          btn.parentElement.remove();
+        }
+      }
+    })
+  })
+}
+}
+removeBook();
