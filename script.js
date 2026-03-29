@@ -78,16 +78,26 @@ function addNewBook(){
   const modal = document.querySelector("#book-modal");
   const bookForm = document.forms[0];
   const submitForm = document.querySelector("#submit-form");
+  const addButton = document.querySelector("#add-button");
+  const closeButton = document.querySelector("#modal-close");
+  addButton.addEventListener("click", ()=>{
+    modal.showModal();
+  });
+  closeButton.addEventListener("click", () => {
+      modal.close();
+  });
   submitForm.addEventListener("click", (e) => {
     e.preventDefault()
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#book-author').value;
     const pages = document.querySelector('#book-pages').value;
     const read = bookForm.elements["read-the-book"].value;
-    addBookToLibrary(title, author, pages, read);
-    modal.close();
-    viewBookLibrary();
-  })
+    if (title && author && pages && read) {
+      addBookToLibrary(title, author, pages, read);
+      viewBookLibrary();
+      modal.close();
+    }
+  });
 }
 addNewBook();
 viewBookLibrary();
