@@ -1,4 +1,5 @@
 const myLibrary = [];
+let newBook = '';
 
 function Book(title, author, pages, read) {
   if(!new.target){
@@ -15,7 +16,9 @@ function Book(title, author, pages, read) {
 function addBookToLibrary(title, author, pages, read) {
   // take params, create a book then store it in the array
   myLibrary.push(new Book(title, author, pages, read));
-}
+};
+
+
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "295", "not read yet");
 addBookToLibrary("Dune", "Frank Herbert", "780", "not read yet");
 addBookToLibrary("Brave New World", "George Orwell", "298", "read");
@@ -36,7 +39,7 @@ function viewBookLibrary(){
   for (const book in myLibrary) {
     if (!Object.hasOwn(myLibrary, book)) continue;
 
-    const bookLibaryContainer = document.querySelector(".library");
+    const bookLibraryContainer = document.querySelector(".library");
 
     const bookCard = document.createElement("div");
     bookCard.classList.add("card");
@@ -60,7 +63,13 @@ function viewBookLibrary(){
     bookPages.textContent = myLibrary[book].pages;
 
     bookRead = document.createElement('p');
+    bookRead.classList.add("card-read");
     bookRead.textContent = myLibrary[book].read;
+
+    bookStatus = document.createElement('button');
+    bookStatus.classList.add("card-status");
+    bookStatus.textContent = "Change Read Status";
+    bookStatus.setAttribute('data-id', myLibrary[book].id);
 
     bookCard.append(bookTitle);
     bookCard.append(bookID);
@@ -68,9 +77,8 @@ function viewBookLibrary(){
     bookCard.append(bookPages);
     bookCard.append(bookRead);
     bookCard.append(removeBook);
-    bookLibaryContainer.append(bookCard);
-    // const element = myLibrary[book];
-    // console.log(myLibrary[book].title);
+    bookCard.append(bookStatus);
+    bookLibraryContainer.append(bookCard);
   }
 }
 
@@ -110,6 +118,7 @@ function removeBook() {
       if (book.id === btn.dataset.id){
         const bookList = myLibrary.find(set => set.id !== book.id);
         const bookIndex = myLibrary.indexOf(bookList);
+        console.log(bookIndex);
         myLibrary.splice(bookIndex, 1); // 2nd parameter removes one item only
         if (btn.parentElement) {
           btn.parentElement.remove();
@@ -120,3 +129,45 @@ function removeBook() {
 }
 }
 removeBook();
+
+Book.prototype.changeStatus = function() {
+  if (this.read === 'read'){
+    return this.read = 'not read yet';
+  } else {
+    return this.read = 'read';
+  }
+
+};
+
+
+
+
+function changeBookStatus() {
+
+  for (const book of myLibrary) {
+    const btns = document.querySelectorAll('.card-status');
+
+    btns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (book.id === btn.dataset.id) {
+
+          const bookList = myLibrary.find(set => set.id === book.id);
+          // use the prototype to change read status for books
+          bookList.changeStatus();
+          // select the card element parent parent
+          const card = btn.closest('.card');
+          const cardRead = card.querySelector('.card-read');
+
+          if (cardRead.textContent === 'read') {
+            cardRead.textContent = 'not read yet';
+          } else {
+            cardRead.textContent = 'read';
+          }
+          }
+        });
+      });
+    }
+  }
+changeBookStatus();
+
+
