@@ -19,27 +19,27 @@ function addBookToLibrary(title, author, pages, read) {
 };
 
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "295", "not read yet");
-addBookToLibrary("Dune", "Frank Herbert", "780", "not read yet");
-addBookToLibrary("Brave New World", "George Orwell", "298", "read");
-addBookToLibrary("Ender's Game", "Orson Scott Card", "324", "not read yet");
-addBookToLibrary("1984", "George Orwell", "328", "read");
-addBookToLibrary("To Kill a Mockingbird", "Harper Lee", "281", "read");
-addBookToLibrary("Pride and Prejudice", "Jane Austen", "279", "not read yet");
-addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", "180", "read");
-addBookToLibrary("Jane Eyre", "Charlotte Brontë", "507", "read");
-addBookToLibrary("Wuthering Heights", "Emily Brontë", "323", "not read yet");
-addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", "1178", "not read yet");
-addBookToLibrary("Harry Potter and the Philosopher's Stone", "J.K. Rowling", "309", "read");
-addBookToLibrary("The Catcher in the Rye", "J.D. Salinger", "273", "not read yet");
-addBookToLibrary("Moby Dick", "Herman Melville", "585", "not read yet");
+// addBookToLibrary("The Hobbit", "J.R.R. Tolkien", "295", "not read yet");
+// addBookToLibrary("Dune", "Frank Herbert", "780", "not read yet");
+// addBookToLibrary("Brave New World", "George Orwell", "298", "read");
+// addBookToLibrary("Ender's Game", "Orson Scott Card", "324", "not read yet");
+// addBookToLibrary("1984", "George Orwell", "328", "read");
+// addBookToLibrary("To Kill a Mockingbird", "Harper Lee", "281", "read");
+// addBookToLibrary("Pride and Prejudice", "Jane Austen", "279", "not read yet");
+// addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", "180", "read");
+// addBookToLibrary("Jane Eyre", "Charlotte Brontë", "507", "read");
+// addBookToLibrary("Wuthering Heights", "Emily Brontë", "323", "not read yet");
+// addBookToLibrary("The Lord of the Rings", "J.R.R. Tolkien", "1178", "not read yet");
+// addBookToLibrary("Harry Potter and the Philosopher's Stone", "J.K. Rowling", "309", "read");
+// addBookToLibrary("The Catcher in the Rye", "J.D. Salinger", "273", "not read yet");
+// addBookToLibrary("Moby Dick", "Herman Melville", "585", "not read yet");
 
 // console.log(myLibrary);
 function viewBookLibrary(){
+  const bookLibraryContainer = document.querySelector(".library");
+  bookLibraryContainer.innerHTML = "";
   for (const book in myLibrary) {
     if (!Object.hasOwn(myLibrary, book)) continue;
-
-    const bookLibraryContainer = document.querySelector(".library");
 
     const bookCard = document.createElement("div");
     bookCard.classList.add("card");
@@ -81,7 +81,7 @@ function viewBookLibrary(){
     bookLibraryContainer.append(bookCard);
   }
 }
-
+// viewBookLibrary()
 function addNewBook(){
   const modal = document.querySelector("#book-modal");
   const bookForm = document.forms[0];
@@ -94,39 +94,42 @@ function addNewBook(){
   closeButton.addEventListener("click", () => {
       modal.close();
   });
-  submitForm.addEventListener("click", (e) => {
+  bookForm.addEventListener("submit", (e) => {
     e.preventDefault()
+
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#book-author').value;
     const pages = document.querySelector('#book-pages').value;
     const read = bookForm.elements["read-the-book"].value;
     if (title && author && pages && read) {
-      addBookToLibrary(title, author, pages, read);
-      viewBookLibrary();
+      const addBook = new Book(title, author, pages, read);
+
+      myLibrary.push(addBook)
+
       modal.close();
+      bookForm.reset();
+      viewBookLibrary();
     }
   });
 }
 addNewBook();
-viewBookLibrary();
+
 
 function removeBook() {
-  for (const book of myLibrary) {
-  const btns = document.querySelectorAll('.remove-card');
-  btns.forEach((btn) => {
-    btn.addEventListener("click", () =>{
-      if (book.id === btn.dataset.id){
-        const bookList = myLibrary.find(set => set.id !== book.id);
-        const bookIndex = myLibrary.indexOf(bookList);
-        console.log(bookIndex);
-        myLibrary.splice(bookIndex, 1); // 2nd parameter removes one item only
-        if (btn.parentElement) {
-          btn.parentElement.remove();
-        }
+
+    const library = document.querySelector('.library');
+
+    library.addEventListener('click', (e) => {
+      const removeButton = e.target.closest('.remove-card');
+      if(removeButton){
+        const btn = removeButton.dataset.id;
+        const bookList = myLibrary.findIndex(set => set.id !== btn);
+
+        myLibrary.splice(bookList, 1);
+        removeButton.closest('.card').remove();
       }
-    })
-  })
-}
+    });
+
 }
 removeBook();
 
@@ -144,29 +147,27 @@ Book.prototype.changeStatus = function() {
 
 function changeBookStatus() {
 
-  for (const book of myLibrary) {
-    const btns = document.querySelectorAll('.card-status');
+  const library = document.querySelector('.library');
+  library.addEventListener('click', (e) => {
 
-    btns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (book.id === btn.dataset.id) {
+    const changeButton = e.target.closest('.card-status');
+    if (changeButton) {
+      const btn = changeButton.dataset.id;
+      const bookList = myLibrary.find(set => set.id === btn);
 
-          const bookList = myLibrary.find(set => set.id === book.id);
-          // use the prototype to change read status for books
-          bookList.changeStatus();
-          // select the card element parent parent
-          const card = btn.closest('.card');
-          const cardRead = card.querySelector('.card-read');
+      console.log(bookList.changeStatus());
 
-          if (cardRead.textContent === 'read') {
-            cardRead.textContent = 'not read yet';
-          } else {
-            cardRead.textContent = 'read';
-          }
-          }
-        });
-      });
+      const card = changeButton.closest('.card');
+      const cardRead = card.querySelector('.card-read');
+
+      if (cardRead.textContent === 'read') {
+        cardRead.textContent = 'not read yet';
+      } else {
+        cardRead.textContent = 'read';
+      }
     }
+  });
+
   }
 changeBookStatus();
 
