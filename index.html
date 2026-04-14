@@ -21,21 +21,25 @@
         <h1>Add A New Book</h1>
         <p>Add your books and click close when your done.</p>
         <form method="book-modal">
-            <label for="book-title" required>Title:</label>
-            <input type="text" id="title" required>
-            <label for="book-author" required>Book Author:</label>
-            <input type="text" id="book-author" required>
-            <label for="book-pages">Pages:</label>
-            <input type="number" name="book-pages" id="book-pages" required min="1">
-            <fieldset>
-                <legend>Have you read the book?:</legend>
-                <label for="book-read">Yes:</label>
-                <input type="radio" name="read-the-book" id="book-read" value="read" required>
-                <label for="book-not-read">No:</label>
-                <input type="radio" name="read-the-book" id="book-not-read" value="not read yet">
-            </fieldset>
-            <button type="submit" id="submit-form">Submit</button>
-            <button type="reset" id="reset-form">Reset</button>
+            <div class="form-inputs">
+                <label for="book-title" required>Title:</label>
+                <input type="text" id="title" required>
+                <label for="book-author" required>Book Author:</label>
+                <input type="text" id="book-author" required>
+                <label for="book-pages">Pages:</label>
+                <input type="number" name="book-pages" id="book-pages" required min="1">
+                <fieldset>
+                    <legend>Have you read the book?:</legend>
+                    <label for="book-read">Yes:</label>
+                    <input type="radio" name="read-the-book" id="book-read" value="read" required>
+                    <label for="book-not-read">No:</label>
+                    <input type="radio" name="read-the-book" id="book-not-read" value="not read yet">
+                </fieldset>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" id="submit-form">Submit</button>
+                <button type="reset" id="reset-form">Reset</button>
+            </div>
         </form>
     </dialog>
     <div class="library"></div>

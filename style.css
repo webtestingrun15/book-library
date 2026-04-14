@@ -59,18 +59,52 @@ header {
     display: flex;
     background-color: var(--blue);
     justify-content: space-between;
-    padding: 10px 10px;
+    padding: 10px 20px;
 }
 
 .library {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 10px 20px;
 }
 
 
 /* Components */
-button#add-button {
+button {
+    border: none;
     border-radius: 10px;
-    padding: 10px;
+
+    &#add-button {
+        padding: 15px;
+    }
+
+    &:not(#add-button) {
+        margin-right: 10px;
+        padding: 5px 5px;
+        background-color: var(--gold);
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.card {
+    border: 2px solid var(--black);
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &:hover {
+        background-color: var(--grey);
+    }
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 10px 0px;
 }

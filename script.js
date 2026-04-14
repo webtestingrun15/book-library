@@ -73,13 +73,19 @@ function viewBookLibrary(){
     bookStatus.textContent = "Change Read Status";
     bookStatus.setAttribute('data-id', myLibrary[book].id);
 
+    bookButtons = document.createElement('div');
+    bookButtons.classList.add("card-buttons");
+
+    // bookButtons.append(removeBook);
+    // bookButtons.append(bookStatus);
+
     bookCard.append(bookTitle);
     bookCard.append(bookID);
     bookCard.append(bookAuthor);
     bookCard.append(bookPages);
     bookCard.append(bookRead);
-    bookCard.append(removeBook);
     bookCard.append(bookStatus);
+    bookCard.append(removeBook);
     bookLibraryContainer.append(bookCard);
   }
 }
