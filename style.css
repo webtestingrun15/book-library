@@ -50,7 +50,7 @@ svg {
 }
 
 html {
-    font-family: system-ui, sans-serif;
+    font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
     font-weight: normal;
 }
 
@@ -70,7 +70,7 @@ header {
 }
 
 
-/* Components */
+/* Buttons */
 button {
     border: none;
     border-radius: 10px;
@@ -90,6 +90,33 @@ button {
     }
 }
 
+/* Modal */
+
+#modal-close {
+    border: none;
+    background: none;
+    position: absolute;
+    right: 0.25rem;
+    top: 0.5rem;
+    filter: grayscale() brightness(20);
+    font-weight: bold;
+    color: var(--black);
+}
+
+.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.80);
+}
+
 .card {
     border: 2px solid var(--black);
     border-radius: 10px;
@@ -103,9 +130,32 @@ button {
     }
 }
 
+/* Form */
+
+.form-intro {
+    text-align: center;
+}
+
 .form-inputs {
     display: flex;
     flex-direction: column;
     gap: 5px;
     margin: 10px 0px;
+
+    input {
+        border-radius: 5px;
+        border: 1px solid var(--text-grey);
+
+    }
+
+    fieldset {
+        border-radius: 5px;
+        border: 1px solid var(--text-grey);
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        padding-left: 5px;
+    }
+
 }
