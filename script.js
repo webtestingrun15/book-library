@@ -1,16 +1,25 @@
 const myLibrary = [];
-let newBook = '';
 
-function Book(title, author, pages, read) {
-  if(!new.target){
-    throw Error("You must use the 'new' operator to call the constructor");
+class Book {
+
+  constructor(title, author, pages, read) {
+    if (!new.target) {
+      throw Error("You must use the 'new' operator to call the constructor");
+    };
+    this.id = crypto.randomUUID();
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
   }
-  // the constructor...
-  this.id = crypto.randomUUID();
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
+
+  changeStatus() {
+    if (this.read === 'read') {
+      return this.read = 'not read yet';
+    } else {
+      return this.read = 'read';
+    }
+  }
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -121,18 +130,6 @@ function removeBook() {
 }
 removeBook();
 
-Book.prototype.changeStatus = function() {
-  if (this.read === 'read'){
-    return this.read = 'not read yet';
-  } else {
-    return this.read = 'read';
-  }
-
-};
-
-
-
-
 function changeBookStatus() {
 
   const library = document.querySelector('.library');
@@ -156,7 +153,7 @@ function changeBookStatus() {
     }
   });
 
-  }
+}
 changeBookStatus();
 
 
